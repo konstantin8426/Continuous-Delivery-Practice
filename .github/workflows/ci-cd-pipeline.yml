@@ -1,0 +1,27 @@
+name: CD Pipeline with Docker  
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  
+
+    steps:
+      - name: Checkout репозиторію
+        uses: actions/checkout@v3  
+
+      - name: Логін в Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin  
+
+      - name: Збірка Docker-образу
+        run: docker build -t myapp:${{ github.sha }} .  
+
+      - name: Завантаження образу у Docker Hub
+        run: docker tag myapp:${{ github.sha }} mydockerhubusername/myapp:latest &&
+             docker push mydockerhubusername/myapp:latest  
+
+      - name: Деплой на сервер
+        run: ssh user@server "docker pull mydockerhubusername/myapp:latest && docker stop myapp || true && docker rm myapp || true && docker run -d -p 80:3000 --name myapp mydockerhubusername/myapp:latest"
