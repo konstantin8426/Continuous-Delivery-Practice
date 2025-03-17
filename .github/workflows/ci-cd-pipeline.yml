@@ -26,7 +26,7 @@ jobs:
       - name: Деплой на сервер
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key && chmod 600 private_key
-          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@192.168.1.100 "
+          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@195.64.239.246 "
             docker pull kostya8426/practice:latest &&
             docker stop practice || true &&
             docker rm practice || true &&
