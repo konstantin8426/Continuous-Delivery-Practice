@@ -1,20 +1,17 @@
-# Використання офіційного образу Node.js
-FROM node:18-alpine  
+# Використовуємо офіційний Node.js образ
+FROM node:18-alpine
 
-# Встановлення робочої директорії
-WORKDIR /app  
+# Встановлюємо робочу директорію
+WORKDIR /app
 
-# Копіювання package.json і package-lock.json
-COPY package*.json ./  
+# Копіюємо package.json і package-lock.json
+COPY package*.json ./
 
-# Встановлення залежностей
-RUN npm install  
+# Встановлюємо залежності
+RUN npm install
 
-# Копіювання всього коду в контейнер
-COPY . .  
+# Копіюємо весь код проєкту
+COPY . .
 
-# Відкриття порту для доступу до додатка
-EXPOSE 3000  
-
-# Запуск додатка
-CMD ["node", "server.js"]
+# Запускаємо додаток
+CMD ["npm", "start"]
