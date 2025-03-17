@@ -1,5 +1,5 @@
 {
-  "name": "practice",
+  "name": "Continuous-Delivery-Practice",
   "version": "1.0.0",
   "description": "My Node.js app with Docker",
   "main": "server.js",
