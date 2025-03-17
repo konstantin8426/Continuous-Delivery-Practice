@@ -20,14 +20,16 @@ jobs:
         run: docker build -t practice:${{ github.sha }} .  
 
       - name: Завантаження образу у Docker Hub
-        run: docker tag practice:${{ github.sha }} kostya8426/practice:latest &&
-             docker push kostya8426/practice:latest  
+        run: |
+          docker tag practice:${{ github.sha }} kostya8426/practice:latest
+          docker push kostya8426/practice:latest  
 
       - name: Деплой на сервер
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key && chmod 600 private_key
-          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@68.195.64.239 "
+          ssh -i private_key -o StrictHostKeyChecking=no root@localhost -p 2222 "
             docker pull kostya8426/practice:latest &&
-            docker stop practice || true &&
-            docker rm practice || true &&
-            docker run -d -p 80:3000 --name practice kostya8426/practice:latest"
+            docker stop myapp || true &&
+            docker rm myapp || true &&
+            docker run -d -p 80:3000 --name myapp kostya8426/practice:latest
+          "
